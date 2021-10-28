@@ -1,5 +1,3 @@
-
-node_modules/*
-# Heroku environment configuration
+/node_modules
 .env
-env.cmd
+package-lock.json

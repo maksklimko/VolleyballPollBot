@@ -1,55 +1,101 @@
-# heroku-node-telegram-bot
-Starter pack for running telegram bot on the Heroku using Node.js
+# Создание телеграм бота на Telegraf.js
 
-# Step-by-step
+## Регистрация бота в Телеграм
 
-### Try bot locally
+- В Телеграме найти бота @BotFather
+- Ввести команду /newbot
+- Следуя подсказкам придумать название бота и логин для него
+- Получить ссылку на нового бота и API токен
+- Ввести команду /mybots
+- Выбрать своего бота и нажать Edit Bot
+- Добавить информацию description, about, botpic, commands
 
-1. Create your own bot using Telegram's [BotFather](https://core.telegram.org/bots#3-how-do-i-create-a-bot) and grab your TOKEN.
-2. Clone or download and unpack this repo.
-3. Go to the app's folder using `cd ~/heroku-node-telegram-bot`
-4. Run `npm install` (in some cases you will need to run this with sudo, you know, just the permissions).
-5. Rename .env_example file into .env and set TOKEN to the value, you've got from the BotFather.
-6. Run `npm start` and send smth to your bot.
-7. After it says "hello" to you, we can go to the next step😎
+## Инициализация проекта
 
-### Deploy your bot to the heroku
+- Создать папку с названием проекта
+- Открыть проект в своей IDE или редакторе
+- Открыть терминал и перейти в папку с проектом
+  > **ls, dir** посмотреть список каталогов  
+  > **cd ..** перейти на уровень выше  
+  > **cd каталог** перейти в каталог
+- проверить версию node.js если нет версии, то установить [node.js](https://nodejs.org/en/)
+  > **node -v** проверить версию
+- инициализировать проект (создать файл package.json)
+  > **npm init -y**
+- установить [nodemon](https://www.npmjs.com/package/nodemon)
+  > **npm i -D nodemon**
+- установить [telegraf](https://www.npmjs.com/package/telegraf)
+  > **npm i telegraf**
+- установить [dotenv](https://www.npmjs.com/package/dotenv)
+  > **npm i dotenv**
+- Создать **файл .env** и записать в него:
+  > BOT_TOKEN = Токен из @BotFather
+- Создать **файл index.js** и записать в него:
+  > const { Telegraf, Markup } = require("telegraf")  
+  > require("dotenv").config()  
+  > const bot = new Telegraf(process.env.BOT_TOKEN)  
+  > bot.start((ctx) => ctx.reply('Welcome'))  
+  > bot.help((ctx) => ctx.reply('Send me a sticker'))  
+  > bot.on('sticker', (ctx) => ctx.reply('Like'))  
+  > bot.hears('hi', (ctx) => ctx.reply('Hey there'))  
+  > bot.launch()  
+  > process.once('SIGINT', () => bot.stop('SIGINT'))  
+  > process.once('SIGTERM', () => bot.stop('SIGTERM'))
+- Создать **файл .gitignore**
+  > /node_modules  
+  > .env  
+  > package-lock.json
+- Создать **файл Procfile**
+  > worker: npm start
+- Изменить скрипты в файле **package.json**
+  > "scripts": {  
+  >  "start": "node index.js",  
+  >  "dev": "nodemon index.js"  
+  > },
+- Запустить проект командой
+  > npm run dev
 
-1. Create the [Heroku account](https://heroku.com) and install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
-2. Login to your Heroku account using `heroku login`.
-3. Go to the app's folder using `cd ~/heroku-node-telegram-bot`
-4. Run `heroku create` to prepare the Heroku environment.
-5. Run `heroku config:set TOKEN=SET HERE THE TOKEN YOU'VE GOT FROM THE BOTFATHER` and `heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2)` to configure environment variables on the server.
-6. Run `git add -A && git commit -m "Ready to run on heroku" && git push heroku master` to deploy your bot to the Heroku server.
-7. Send smth to the bot to check out if it works ok.
+## Деплой проекта на Heroku
 
-### Going further
+- Зарегистрироваться на [GitHub](https://github.com/) и войти
+- Создать репозиторий и запушить код бота
+- Зарегистрироваться на [Heroku](https://www.heroku.com/) и войти
+- Создать новое приложение  
+  ![new/create new app](./img/deploy/create_new_app.jpg)
+- Добавить константу с API токеном  
+  ![settings/config vars](./img/deploy/token_heroku.jpg)
+- Переключить Dyno с web на worker  
+  ![resources](./img/deploy/resources.jpg)
+- На вкладке Deploy связать проект с репозиторием GitHub  
+  ![deploy](./img/deploy/deploy.jpg)
+- Включить Automatic deploys (опционально)
+- Запусть Manual Deploy
+- Перезагрузить все Dyno  
+  ![more/restart all dynos](./img/deploy/restart.jpg)
+- Просматривать логи  
+  ![more/view logs](./img/deploy/logs.jpg)
 
-Now you may wish to add other functionality to your bot and here you can face some problems. The reason is that in development mode your bot works using [polling](https://en.wikipedia.org/wiki/Push_technology#Long_polling) and on the heroku server it uses the [webhook](https://core.telegram.org/bots/api#setwebhook), because heroku will shut down the web-server after a period of inactivity that will result in your polling loop to shut down too. Once webhook was enabled, telegram will return an error `{"ok":false,"error_code":409,"description":"Error: Conflict: another webhook is active"}` when you will try to use polling again, and it's actually ok.
+### Полезные материалы
 
-To go back to development mode, you will need to run `npm run switch_to_dev`. This script will disable current webhook and start your local server. Don't be afraid - when you will finish with the changes you may simply push your bot to heroku using `git push heroku master`. Then you should restart your app using `heroku restart`. It will set the webhook again.
+- [Видео урок по созданию бота](https://youtu.be/YxHWfDdjIek)
+- [Обзор моего бота](https://youtu.be/IZj7up7CDdU)
+- [Шаблонные строки](https://youtu.be/OPeujASczVM)
+- [Тернарный оператор](https://youtu.be/C0rqUyNI5zA)
+- [Курс по JavaScript](https://www.youtube.com/playlist?list=PLuY6eeDuleINoCQtGZsMoVVCSgEH7gKQ5)
+- [Перехват ошибок try catch](https://youtu.be/jMoyWtoDtYA)
+- [Курс по Git + GitHub](https://www.youtube.com/playlist?list=PLuY6eeDuleIOMB2R_Kky05ZfiAx2_pbAH)
 
-### Possible OS issues
+### Автору на кофе
 
-As i work on MacOS and sometimes on Ubuntu, you may face some problems with my npm scripts, so let's figure out how they work.
+Сбер VISA: 4274 3200 3233 1582  
+[Yoomoney](https://yasobe.ru/na/itdoctor)  
+[PayPal](https://paypal.me/itdoctorstudio)
 
-`npm run switch_to_dev` runs `export $(cat .env | xargs) && wget --spider https://api.telegram.org/bot$TOKEN/setWebhook?url= --delete-after && node index.js` which is actually an API call which will reset webhook (with the TOKEN from your environment variable) and `npm start`. 
+### Контакты ITDoctor
 
-**If wget don't work (or is not installed) on your OS**, you can simply open the `https://api.telegram.org/botYOUR_TOKEN/setWebhook?url=` in your browser, but don't forget to replace YOUR_TOKEN with the token, you've got from the BotFather.
-
-If your bot is not responding locally, in most cases, you will need to reset the environment variables by restarting your application.
-
-### Links and references
-
-Actually, this repo is created because I've faced problems when I was trying to run the bot using [mvalipour's article](http://mvalipour.github.io/node.js/2015/12/06/telegram-bot-webhook-existing-express/) and [this PR](https://github.com/mvalipour/telegram-bot-webhook/pull/3) to his repo. Still, these links will be very useful for the beginners. 
-
-The solution relies on the [node-telegram-bot-api wrapper](https://github.com/yagop/node-telegram-bot-api) by the @yagop, so you can find more info there.
-
-Also check out [official API docs](https://core.telegram.org/bots/api) by Telegram team, it may be helpfull.
-
-Good luck, BotCoder!
-
-P.S. If you see that something is not working, please, open an [issue](https://github.com/volodymyrlut/heroku-node-telegram-bot/issues) or send me a PR if you've managed to make code better.
-
-Created with great passion for bots.
-In case of any bot development proposals, contact me [here](http://lut.rocks).
+[YouTube](https://www.youtube.com/c/ITDoctor)  
+[Telegram](https://t.me/itdoctorstudio) и бот [@itdoctorNavigatorBot](https://t.me/itdoctorNavigatorBot?start)  
+[Курсы на Udemy](https://www.udemy.com/user/useinov-ismail-asanovich/)  
+[GitHub](https://github.com/morphIsmail)  
+[VK](https://vk.com/itdoctorstudio)  
+[Instagram](https://instagram.com/ismail_asanovich)
