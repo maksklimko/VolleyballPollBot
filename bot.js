@@ -1,33 +1,21 @@
-var token = "1623332918:AAFm5CMVKn-pSVnBp3hI9_zRrGXWPEPL8wo";
+const token = process.env.TOKEN;
 
-var Bot = require('node-telegram-bot-api');
-var bot;
+const Bot = require('node-telegram-bot-api');
+let bot;
 
 if(process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
-  bot.setWebHook("https://volleyball-poll-bot.herokuapp.com/" + bot.token);
+  bot.setWebHook(process.env.HEROKU_URL + bot.token);
 }
 else {
   bot = new Bot(token, { polling: true });
 }
 
-console.log('bot server started...');
+console.log('Bot server started in the ' + process.env.NODE_ENV + ' mode');
 
-// hello command
-bot.onText(/^\/say_hello (.+)$/, function (msg, match) {
-  var name = match[1];
-  bot.sendMessage(msg.chat.id, 'Hello ' + name + '!').then(function () {
-    // reply sent!
-  });
-});
-
-// sum command
-bot.onText(/^\/sum((\s+\d+)+)$/, function (msg, match) {
-  var result = 0;
-  match[1].trim().split(/\s+/).forEach(function (i) {
-    result += (+i || 0);
-  })
-  bot.sendMessage(msg.chat.id, result).then(function () {
+bot.on('message', (msg) => {
+  const name = msg.from.first_name;
+  bot.sendMessage(msg.chat.id, 'Hello, ' + name + '!').then(() => {
     // reply sent!
   });
 });
