@@ -11,10 +11,10 @@ bot.on('message', (msg) => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
-    if(text==="/create"){
+   
     if(text==="/create@VolleyballPullSnippetsBot"||text==="/create"){
       bot.setMyCommands() 
       bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"});
       bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
     }
-}});
+});
