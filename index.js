@@ -19,7 +19,9 @@ bot.on('message', (msg) => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
-   
+    bot.telegram.sendMessage(msg.chat.id, "qq").then((m) => {
+      // bot.telegram.deleteMessage(chat_id, m.message_id)
+     });
     if(text==="/create@VolleyballPullSnippetsBot"||text==="/create"){
       bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"}).then(msg=>{
         bot.deleteMessage(msg.chat.id,msg.id);
@@ -28,9 +30,6 @@ bot.on('message', (msg) => {
       });
       bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
     }else{
-      bot.telegram.sendMessage(msg.chat.id, "qq").then((m) => {
-       // bot.telegram.deleteMessage(chat_id, m.message_id)
-      });
       for (let i = 0; i < arr.length; i++) {
         bot.deleteMessage(msg.chat.id,arr[i]);
       }
