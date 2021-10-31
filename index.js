@@ -1,7 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 
 let arr = [];
-//let chatId;
 
 const schedule = require('node-schedule');
 const rule = new schedule.RecurrenceRule();
@@ -19,24 +18,24 @@ bot.on('message', (msg) => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
-    bot.sendMessage(msg.chat.id, "qq").then((m) => {
-       bot.deleteMessage(m.chat.id, m.message_id)
-     });
     if(text==="/create@VolleyballPullSnippetsBot"||text==="/create"){
-      bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"}).then(msg=>{
-        bot.deleteMessage(msg.chat.id,msg.id);
-          chatId=this.chatId;
-          arr.push(msg.id);
+      bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"}).then((m)=>{
+        arr.push(m);
       });
-      bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
-    }else{
-      for (let i = 0; i < arr.length; i++) {
-        bot.deleteMessage(msg.chat.id,arr[i]);
-      }
+      bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"}).then((m)=>{
+        arr.push(m);
+      });
     }
 });
 
 const job = schedule.scheduleJob(rule, function(){
-      bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"});
-      bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
+  for (let i = 0; i < arr.length; i++) {
+    bot.deleteMessage(arr[i].chat.id,arr[i].id)    
+  }
+  bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"}).then((m)=>{
+    arr.push(m);
+  });
+  bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"}).then((m)=>{
+    arr.push(m);
+  });
 });
