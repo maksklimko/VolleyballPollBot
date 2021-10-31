@@ -29,7 +29,7 @@ bot.on('message', (msg) => {
       bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
     }else{
       bot.telegram.sendMessage(chat_id, "qq").then((m) => {
-        bot.telegram.deleteMessage(chat_id, m.message_id)
+       // bot.telegram.deleteMessage(chat_id, m.message_id)
       })
       for (let i = 0; i < arr.length; i++) {
         bot.deleteMessage(msg.chat.id,arr[i]);
