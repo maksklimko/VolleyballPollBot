@@ -3,6 +3,7 @@ const TelegramBot = require('node-telegram-bot-api');
 let arr = [];
 let chatId;
 
+const schedule = require('node-schedule');
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [0,3,5];
 rule.hour = 0;
