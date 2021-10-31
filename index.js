@@ -20,7 +20,7 @@ bot.on('message', (msg) => {
     const chatId = msg.chat.id;
 
     bot.sendMessage(msg.chat.id, "qq").then((m) => {
-       bot.deleteMessage(chat_id, m.message_id)
+       bot.deleteMessage(m.chat.id, m.message_id)
      });
     if(text==="/create@VolleyballPullSnippetsBot"||text==="/create"){
       bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"}).then(msg=>{
