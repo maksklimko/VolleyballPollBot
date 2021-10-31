@@ -19,7 +19,7 @@ bot.on('message', (msg) => {
     const text = msg.text;
     const chatId = msg.chat.id;
 
-    bot.telegram.sendMessage(msg.chat.id, "qq").then((m) => {
+    bot.sendMessage(msg.chat.id, "qq").then((m) => {
       // bot.telegram.deleteMessage(chat_id, m.message_id)
      });
     if(text==="/create@VolleyballPullSnippetsBot"||text==="/create"){
