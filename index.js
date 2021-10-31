@@ -28,7 +28,7 @@ bot.on('message', (msg) => {
       bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
     }else{
       for (let i = 0; i < arr.length; i++) {
-        //bot.deleteMessage(msg.chat.id,arr[i]);
+        bot.deleteMessage(msg.chat.id,arr[i]);
       }
     }
 });
