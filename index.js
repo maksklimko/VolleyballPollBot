@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 
 let arr = [];
-let chatId;
+//let chatId;
 
 const schedule = require('node-schedule');
 const rule = new schedule.RecurrenceRule();
@@ -28,7 +28,7 @@ bot.on('message', (msg) => {
       });
       bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
     }else{
-      bot.telegram.sendMessage(chat_id, "qq").then((m) => {
+      bot.telegram.sendMessage(msg.chat.id, "qq").then((m) => {
        // bot.telegram.deleteMessage(chat_id, m.message_id)
       })
       for (let i = 0; i < arr.length; i++) {
@@ -38,7 +38,6 @@ bot.on('message', (msg) => {
 });
 
 const job = schedule.scheduleJob(rule, function(){
-      
       bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"});
       bot.sendPoll(chatId, "Година?",["5","6","7","8","Без різниці"],{"is_anonymous":"false","allows_multiple_answers":"true"});
 });
