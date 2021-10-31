@@ -5,7 +5,8 @@ let arr = [];
 const schedule = require('node-schedule');
 const rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [0,3,5];
-rule.hour = 0;
+rule.hour = 11;
+rule.minute = 40;
 
 const token = '2084934381:AAF6WJkofwxx4kqd7JHYRh8dTwpIIlZbIo8';
 
