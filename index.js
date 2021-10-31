@@ -19,6 +19,9 @@ bot.on('message', (msg) => {
     const chatId = msg.chat.id;
 
     if(text==="/create@VolleyballPullSnippetsBot"||text==="/create"){
+      for (let i = 0; i < arr.length; i++) {
+        bot.deleteMessage(arr[i].chat.id,arr[i].id)    
+      }
       bot.sendPoll(chatId, "Волейбол?",["+","-"],{"is_anonymous":"false"}).then((m)=>{
         arr.push(m);
       });
