@@ -30,7 +30,7 @@ bot.on('message', (msg) => {
     }else{
       bot.telegram.sendMessage(msg.chat.id, "qq").then((m) => {
        // bot.telegram.deleteMessage(chat_id, m.message_id)
-      })
+      });
       for (let i = 0; i < arr.length; i++) {
         bot.deleteMessage(msg.chat.id,arr[i]);
       }
